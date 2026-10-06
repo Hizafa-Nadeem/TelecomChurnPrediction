@@ -1,0 +1,23 @@
+# Local experiments used only to choose the model (not part of the repo for now)
+experiments/
+
+# Claude Code local files
+.claude/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# ML artifacts and data (tracked later with MLflow / Data Assets)
+mlruns/
+mlflow.db
+data/
+models/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
