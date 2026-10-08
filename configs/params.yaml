@@ -11,3 +11,7 @@ split:
   test_size: 0.2
   cv_folds: 5
   cv_repeats: 3
+
+train:
+  catboost_iterations: 1000
+  logreg_c_grid: [0.01, 0.1, 1, 10, 100]
