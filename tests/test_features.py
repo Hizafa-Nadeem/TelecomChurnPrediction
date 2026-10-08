@@ -27,7 +27,7 @@ def test_derived_values_on_hand_made_row() -> None:
         total_eve_minutes=60.0, total_eve_calls=20, total_eve_charge=5.0,
         total_night_minutes=40.0, total_night_calls=10, total_night_charge=2.0,
         total_intl_minutes=10.0, total_intl_calls=5, total_intl_charge=3.0,
-        number_customer_service_calls=4, number_vmail_messages=7, account_length=100,
+        number_customer_service_calls=4, voice_mail_plan=0,
     )  # fmt: skip
     out = derive_features(row).iloc[0]
     assert out["total_minutes"] == 210
@@ -39,8 +39,22 @@ def test_derived_values_on_hand_made_row() -> None:
     assert out["intl_minutes_per_call"] == 2.0
     assert out["day_minutes_share"] == pytest.approx(100 / 210)
     assert out["high_service_calls"] == 1
-    assert out["has_voicemail_usage"] == 1
-    assert out["account_length_bucket"] == 1  # 100 falls in the (50, 100] bucket
+    assert out["heavy_day_no_voicemail"] == 0  # 100 day minutes is below the cutoff
+
+
+@pytest.mark.parametrize(
+    ("minutes", "voicemail", "expected"),
+    [(215.0, 0, 1), (214.9, 0, 0), (300.0, 1, 0)],
+)
+def test_heavy_day_no_voicemail_flag(minutes: float, voicemail: int, expected: int) -> None:
+    row = one_row(total_day_minutes=minutes, voice_mail_plan=voicemail)
+    assert derive_features(row).iloc[0]["heavy_day_no_voicemail"] == expected
+
+
+def test_dropped_features_are_absent() -> None:
+    cols = derive_features(cleaned()).columns
+    assert "account_length_bucket" not in cols
+    assert "has_voicemail_usage" not in cols
 
 
 def test_charge_columns_dropped() -> None:

@@ -13,16 +13,15 @@ from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardSc
 
 from churn.validation import BINARY_COLUMNS, CATEGORICAL_COLUMNS, USAGE_PERIODS
 
-# Fixed edges: account_length runs 1-243 and is centred near 100, so 50-wide bins give five
-# populated buckets. Stateless on purpose (quantile bins must be fitted). Revisit after EDA.
-ACCOUNT_LENGTH_EDGES = [50, 100, 150, 200]
 HIGH_SERVICE_CALLS = 4
+# About the top quartile of training day minutes (216); EDA shows churn is concentrated there
+# for customers without voicemail. Fixed so the transform stays stateless.
+HEAVY_DAY_MINUTES = 215
 RARE_LEVEL_FREQUENCY = 0.02
 
-FLAG_COLUMNS = [*BINARY_COLUMNS, "high_service_calls", "has_voicemail_usage"]
+FLAG_COLUMNS = [*BINARY_COLUMNS, "high_service_calls", "heavy_day_no_voicemail"]
 NUMERIC_COLUMNS = [
     "account_length",
-    "account_length_bucket",
     "number_vmail_messages",
     "number_customer_service_calls",
     *[f"total_{p}_{kind}" for p in USAGE_PERIODS for kind in ("minutes", "calls")],
@@ -61,10 +60,9 @@ def derive_features(df: pd.DataFrame) -> pd.DataFrame:
     out["high_service_calls"] = (out["number_customer_service_calls"] >= HIGH_SERVICE_CALLS).astype(
         int
     )
-    out["has_voicemail_usage"] = (out["number_vmail_messages"] > 0).astype(int)
-    out["account_length_bucket"] = np.digitize(
-        out["account_length"], ACCOUNT_LENGTH_EDGES, right=True
-    )
+    out["heavy_day_no_voicemail"] = (
+        (out["total_day_minutes"] >= HEAVY_DAY_MINUTES) & (out["voice_mail_plan"] == 0)
+    ).astype(int)
     for col in CATEGORICAL_COLUMNS:
         out[col] = out[col].astype(str)
     return out[FEATURE_COLUMNS]
