@@ -134,8 +134,7 @@ TelecomChurnPrediction/
 - Encapsulate in one fitted pipeline so training and serving use identical transforms.
 
 ### Step 6: Handling class imbalance
-- Churn is 14.1%. Primary: `auto_class_weights` / `scale_pos_weight` (preferred, no data distortion).
-- Compare against SMOTE/SMOTENC applied **inside CV only**.
+- Churn is 14.1%. Compared plain CatBoost, `auto_class_weights` and SMOTENC applied **inside CV only**. All three tied on PR-AUC, so **plain CatBoost is used** (`docs/decisions.md`, `reports/baselines.md`).
 - Evaluate with PR-AUC; tune the threshold rather than relying on 0.5.
 
 ### Step 7: Baselines and primary model
@@ -148,7 +147,7 @@ TelecomChurnPrediction/
 - Report the gap with confidence intervals, and note that LightGBM matches CatBoost at a fraction of the training time.
 
 ### Step 8: Hyperparameter tuning
-- Optuna (TPE) with stratified CV, objective = PR-AUC, with pruning; budget 100-200 trials on CatBoost (`depth`, `learning_rate`, `l2_leaf_reg`, `iterations` with early stopping, `auto_class_weights`).
+- Optuna (TPE) with stratified CV, objective = PR-AUC, with pruning; budget 100-200 trials on CatBoost (`depth`, `learning_rate`, `l2_leaf_reg`, `iterations` with early stopping).
 - Log params, metrics, and artifacts to MLflow.
 
 ### Step 9: Calibration and threshold selection
