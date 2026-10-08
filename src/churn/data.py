@@ -39,10 +39,15 @@ def clean(raw: pd.DataFrame, params: Params) -> pd.DataFrame:
     return df
 
 
-def load_interim(out_dir: Path) -> pd.DataFrame:
-    """Read the cleaned frame back with `state` and `area_code` as categorical strings."""
-    df = pd.read_csv(out_dir / INTERIM_FILE, dtype={c: str for c in CATEGORICAL_COLUMNS})
+def read_typed_csv(path: Path) -> pd.DataFrame:
+    """Read a cleaned CSV with `state` and `area_code` as categorical strings."""
+    df = pd.read_csv(path, dtype={c: str for c in CATEGORICAL_COLUMNS})
     return df.astype({c: "category" for c in CATEGORICAL_COLUMNS})
+
+
+def load_interim(out_dir: Path) -> pd.DataFrame:
+    """Read the cleaned frame written by `run`."""
+    return read_typed_csv(out_dir / INTERIM_FILE)
 
 
 def run(params: Params, raw_dir: Path, out_dir: Path) -> dict[str, object]:

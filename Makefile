@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python
 
-.PHONY: setup data lint typecheck test check
+.PHONY: setup data split repro lint typecheck test check
 
 setup:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -8,6 +8,13 @@ setup:
 
 data:
 	$(PYTHON) -m churn.data --config configs/params.yaml --raw-dir data/raw --out-dir data/interim
+
+split:
+	$(PYTHON) -m churn.split --config configs/params.yaml --in-dir data/interim --out-dir data/processed
+
+# DVC runs `python` from PATH, so put the venv first.
+repro:
+	PATH="$(CURDIR)/.venv/Scripts:$$PATH" $(PYTHON) -m dvc repro
 
 lint:
 	$(PYTHON) -m ruff check .

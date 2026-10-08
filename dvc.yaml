@@ -1,0 +1,18 @@
+stages:
+  data:
+    cmd: python -m churn.data --config configs/params.yaml --raw-dir data/raw --out-dir data/interim
+    deps:
+      - src/churn/data.py
+      - src/churn/validation.py
+      - configs/params.yaml
+    outs:
+      - data/raw
+      - data/interim
+  split:
+    cmd: python -m churn.split --config configs/params.yaml --in-dir data/interim --out-dir data/processed
+    deps:
+      - src/churn/split.py
+      - data/interim
+      - configs/params.yaml
+    outs:
+      - data/processed

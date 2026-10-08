@@ -7,8 +7,8 @@ Update this file in the same commit as each code change.
 | # | Branch | Steps | Status |
 |---|---|---|---|
 | 1 | `feature/project-scaffold` | setup | Merged |
-| 2 | `feature/data-ingestion-validation` | 1-2 | PR open: `make data`, pandera schema, leakage check, data contract |
-| 3 | `feature/train-test-split` | 4 | Not started |
+| 2 | `feature/data-ingestion-validation` | 1-2 | Merged |
+| 3 | `feature/train-test-split` | 4 | PR open: `make split`, CV helper, DVC (`make repro`) |
 | 4 | `feature/eda` | 3 | Not started |
 | 5 | `feature/feature-pipeline` | 5 | Not started |
 | 6 | `feature/baselines-imbalance` | 6-7 | Not started |
