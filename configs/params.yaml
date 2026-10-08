@@ -1,0 +1,13 @@
+# Pipeline parameters. Plain key: value, 2-space indent; validated by src/churn/config.py.
+# Paths are passed to each stage as arguments and are not stored here.
+seed: 42
+
+data:
+  openml_id: 40701
+  target: class
+  id_column: phone_number
+
+split:
+  test_size: 0.2
+  cv_folds: 5
+  cv_repeats: 3
