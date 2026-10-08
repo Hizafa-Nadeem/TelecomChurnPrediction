@@ -21,3 +21,12 @@ models/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Local environment files (secrets); .env.example is committed
+.env
+.env.*
+!.env.example
+
+# Local build plan (not committed)
+docs/v1_build_plan.md
+*.egg-info/
