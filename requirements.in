@@ -30,6 +30,3 @@ fastapi
 uvicorn
 locust
 httpx
-
-# Data versioning
-dvc

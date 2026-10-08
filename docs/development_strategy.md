@@ -54,7 +54,7 @@ No-skill PR-AUC is 0.141. Fold-to-fold spread is about 0.02 PR-AUC.
 | Explainability | SHAP |
 | Calibration / segment analysis | sklearn CalibratedClassifierCV, Fairlearn (segment metrics only) |
 | Experiment tracking / registry | MLflow |
-| Data/model versioning | DVC |
+| Data/model versioning | MLflow (DVC dropped for v1) |
 | Serving | FastAPI + Uvicorn, Pydantic schemas |
 | Batch scoring | scheduled script/Prefect |
 | Packaging | Docker |
@@ -67,14 +67,14 @@ No-skill PR-AUC is 0.141. Fold-to-fold spread is about 0.02 PR-AUC.
 ## 3. Repository Structure
 ```
 TelecomChurnPrediction/
-├── data/ (raw, interim, processed)   # DVC-tracked
+├── data/ (raw, interim, processed)   # git-ignored
 ├── notebooks/                         # EDA only
 ├── src/churn/ (data, features, train, evaluate, predict, monitor)
 ├── api/ (main.py, schemas.py)
 ├── configs/                           # params.yaml
 ├── tests/
-├── models/                            # MLflow / DVC artifacts
-├── Dockerfile, pyproject.toml, dvc.yaml
+├── models/                            # MLflow artifacts
+├── Dockerfile, pyproject.toml, Makefile
 └── .github/workflows/
 ```
 
