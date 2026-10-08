@@ -5,33 +5,9 @@ import pandas as pd
 import pandera.errors
 import pytest
 
-from churn.config import load_params
 from churn.data import RAW_FILE, clean, load_interim, run
 from churn.validation import LeakageError, build_schema, check_leakage
-
-PARAMS = load_params(Path(__file__).resolve().parents[1] / "configs" / "params.yaml")
-TARGET = PARAMS.data.target
-
-
-def make_raw(n: int = 200, seed: int = 0) -> pd.DataFrame:
-    """Synthetic frame shaped like the OpenML file, with no signal in any feature."""
-    rng = np.random.default_rng(seed)
-    raw: dict[str, object] = {
-        "state": rng.integers(0, 3, n),
-        "account_length": rng.integers(1, 240, n),
-        "area_code": rng.choice([408, 415, 510], n),
-        "phone_number": np.arange(n),
-        "international_plan": rng.integers(0, 2, n),
-        "voice_mail_plan": rng.integers(0, 2, n),
-        "number_vmail_messages": rng.integers(0, 50, n),
-        "number_customer_service_calls": rng.integers(0, 10, n),
-    }
-    for period in ["day", "eve", "night", "intl"]:
-        raw[f"total_{period}_minutes"] = rng.uniform(0, 300, n).round(2)
-        raw[f"total_{period}_calls"] = rng.integers(0, 150, n)
-        raw[f"total_{period}_charge"] = rng.uniform(0, 50, n).round(2)
-    raw[TARGET] = rng.integers(0, 2, n)
-    return pd.DataFrame(raw)
+from helpers import PARAMS, TARGET, make_raw
 
 
 @pytest.fixture

@@ -73,7 +73,7 @@ Stack choices are from `development_strategy.md` Section 2, limited to Steps 1-1
 | Explainability | SHAP | same, inside the pyfunc model |
 | Calibration / segment analysis | CalibratedClassifierCV, Fairlearn (segment metrics only) | same |
 | Tracking/registry | MLflow (local) | Azure ML workspace MLflow and model registry |
-| Pipeline/versioning | DVC (`dvc.yaml`) | AML pipeline job and Data Assets |
+| Pipeline/versioning | Makefile stages (DVC dropped for v1) | AML pipeline job and Data Assets |
 | Serving | FastAPI + Uvicorn, Docker | Managed online endpoint (or Container Apps) |
 | Config | YAML file + Pydantic validation (pydantic-settings for env vars) | same |
 | Quality | ruff, black, mypy, pre-commit | same |
@@ -83,7 +83,7 @@ Stack choices are from `development_strategy.md` Section 2, limited to Steps 1-1
 
 ```
 TelecomChurnPrediction/
-├── data/ (raw, interim, processed)     # DVC-tracked, raw is never edited
+├── data/ (raw, interim, processed)     # git-ignored, raw is never edited
 ├── notebooks/                          # EDA only
 ├── src/churn/                          # data, features, train, tune, calibrate, evaluate, explain, predict, pyfunc_model
 ├── api/                                # main.py, schemas.py (FastAPI)
@@ -92,7 +92,7 @@ TelecomChurnPrediction/
 ├── docs/                               # project_scope, project_spec, development_strategy, Azure_production_plan, data_contract
 ├── tests/                              # smoke tests (full suite is Step 13, later)
 ├── azure/                              # Phase 2 only: Bicep, AML job/endpoint YAML (empty in Phase 1)
-└── Dockerfile, pyproject.toml, dvc.yaml, Makefile
+└── Dockerfile, pyproject.toml, Makefile
 ```
 
 ## 7. Phase 2: Azure Demo
