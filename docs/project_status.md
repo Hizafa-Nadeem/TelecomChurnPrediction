@@ -21,5 +21,6 @@ Update this file in the same commit as each code change.
 
 ## Environment notes
 
+- CI: `.github/workflows/ci.yml` runs `make check` (ruff, black, mypy, pytest) on every PR and on pushes to `main`. Model training and quality gates stay local.
 - Python 3.11 in `.venv`. `shap` is pinned to 0.51.0 because 0.52.0 requires Python 3.12+.
 - On Windows, `make` (winget `ezwinports.make`) may need a new terminal to appear on `PATH`.
