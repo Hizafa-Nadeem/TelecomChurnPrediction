@@ -9,8 +9,8 @@ Update this file in the same commit as each code change.
 | 1 | `feature/project-scaffold` | setup | Merged |
 | 2 | `feature/data-ingestion-validation` | 1-2 | Merged |
 | 3 | `feature/train-test-split` | 4 | PR open: `make split`, CV helper (DVC dropped for v1) |
-| 4 | `feature/eda` | 3 | Not started |
-| 5 | `feature/feature-pipeline` | 5 | PR open: `churn.features` (`derive_features`, `build_pipeline`) |
+| 4 | `feature/eda` | 3 | PR open: `notebooks/01_eda.ipynb`, profiling report in `reports/eda/` |
+| 5 | `feature/feature-pipeline` | 5 | Not started |
 | 6 | `feature/baselines-imbalance` | 6-7 | Not started |
 | 7 | `feature/tuning` | 8 | Not started |
 | 8 | `feature/calibration-threshold` | 9 | Not started |
