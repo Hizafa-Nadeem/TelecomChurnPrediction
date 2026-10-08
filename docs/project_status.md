@@ -6,8 +6,8 @@ Update this file in the same commit as each code change.
 
 | # | Branch | Steps | Status |
 |---|---|---|---|
-| 1 | `feature/project-scaffold` | setup | In progress: scaffold, config models, `make check` |
-| 2 | `feature/data-ingestion-validation` | 1-2 | Not started |
+| 1 | `feature/project-scaffold` | setup | Merged |
+| 2 | `feature/data-ingestion-validation` | 1-2 | PR open: `make data`, pandera schema, leakage check, data contract |
 | 3 | `feature/train-test-split` | 4 | Not started |
 | 4 | `feature/eda` | 3 | Not started |
 | 5 | `feature/feature-pipeline` | 5 | Not started |
@@ -24,3 +24,4 @@ Update this file in the same commit as each code change.
 - CI: `.github/workflows/ci.yml` runs `make check` (ruff, black, mypy, pytest) on every PR and on pushes to `main`. Model training and quality gates stay local.
 - Python 3.11 in `.venv`. `shap` is pinned to 0.51.0 because 0.52.0 requires Python 3.12+.
 - On Windows, `make` (winget `ezwinports.make`) may need a new terminal to appear on `PATH`.
+- Parquet is unavailable here (Windows Application Control blocks pyarrow's Parquet DLL), so interim data is CSV; read it with `churn.data.load_interim`.
