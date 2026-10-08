@@ -134,7 +134,7 @@ TelecomChurnPrediction/
 - Encapsulate in one fitted pipeline so training and serving use identical transforms.
 
 ### Step 6: Handling class imbalance
-- Churn is 14.1%. Compared plain CatBoost, `auto_class_weights` and SMOTENC applied **inside CV only**. All three tied on PR-AUC, so **plain CatBoost is used** (`docs/decisions.md`, `reports/baselines.md`).
+- Churn is 14.1%. Compared plain CatBoost, `auto_class_weights` and SMOTENC applied **inside CV only**. All three tied on PR-AUC, so **plain CatBoost is used** (`reports/baselines.md`).
 - Evaluate with PR-AUC; tune the threshold rather than relying on 0.5.
 
 ### Step 7: Baselines and primary model

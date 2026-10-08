@@ -38,9 +38,17 @@ Code: `src/churn/train.py` (`make train`). Results are logged in MLflow, experim
 - The three CatBoost variants tie. PR-AUC differs by 0.0004 (weighted) and 0.0019 (SMOTENC) against a fold standard deviation of about 0.022; ROC-AUC differs by 0.001-0.002.
 - Boosted models score about 0.10 PR-AUC higher on the folds they were trained on than on validation folds (train PR-AUC near 1.0). Branch 7 tuning should look at regularization.
 
-## Decision
+## Decision (2026-10-09): use plain CatBoost
 
-Carry **plain CatBoost** forward. See `docs/decisions.md`, decision 1.
+`docs/development_strategy.md` Step 6 named class weights as the primary imbalance handling, with SMOTE only as a comparison. The three variants tied, so plain CatBoost (no class weights, no resampling) is carried forward and `auto_class_weights` is not tuned in Step 8. The comparison code stays in `train.py` as the record of the experiment.
+
+Why:
+- Neither weighting nor oversampling improved the ranking: PR-AUC 0.8994 (plain), 0.8990 (weighted), 0.8975 (SMOTENC) against a fold standard deviation of about 0.022.
+- Class weights inflate the predicted probabilities, and Step 9 would have to undo that before the business-cost threshold can use them. Plain probabilities start closer to correct.
+- Fewer moving parts to explain, tune and serve: no synthetic data and no sampler in the training pipeline.
+- Imbalance is handled where it matters, at the decision threshold chosen in Step 9 from expected retention value.
+
+Recheck if the class balance or the data source changes (for example real operator data in v3).
 
 ## Limits
 
