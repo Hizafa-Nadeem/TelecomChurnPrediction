@@ -1,0 +1,32 @@
+
+# Data and EDA
+setuptools<81  # ydata-profiling needs pkg_resources
+pandas
+numpy
+scipy
+matplotlib
+seaborn
+ydata-profiling
+pandera
+
+# Modeling
+scikit-learn
+catboost
+imbalanced-learn
+optuna
+shap
+fairlearn
+
+# Tracking and packaging
+mlflow
+
+# Config
+pydantic
+pydantic-settings
+pyyaml
+
+# Serving and load test
+fastapi
+uvicorn
+locust
+httpx

@@ -1,0 +1,14 @@
+-r requirements.in
+
+# Quality and tests
+ruff
+black
+mypy
+pytest
+pytest-cov
+pre-commit
+
+# Notebooks (EDA)
+jupyterlab
+ipykernel
+nbformat
