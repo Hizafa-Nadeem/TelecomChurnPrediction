@@ -11,7 +11,7 @@ Update this file in the same commit as each code change.
 | 3 | `feature/train-test-split` | 4 | Merged |
 | 4 | `feature/eda` | 3 | Merged |
 | 5 | `feature/feature-pipeline` | 5 | Merged |
-| 6 | `feature/baselines-imbalance` | 6-7 | PR open (into `feature/model-training`): `make train`, 5 variants in MLflow |
+| 6 | `feature/model-comparison` | 6-7 | PR open (into `feature/model-training`): `make train`, 5 variants in MLflow |
 | 7 | `feature/tuning` | 8 | Not started |
 | 8 | `feature/calibration-threshold` | 9 | Not started |
 | 9 | `feature/final-evaluation` | 10 | Not started |
