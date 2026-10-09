@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python
 
-.PHONY: setup data split train tune lint typecheck test check
+.PHONY: setup data split train tune calibrate lint typecheck test check
 
 setup:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -17,6 +17,9 @@ train:
 
 tune:
 	$(PYTHON) -m churn.tune --config configs/params.yaml --data-dir data/processed --out-dir reports/tuning
+
+calibrate:
+	$(PYTHON) -m churn.calibrate --config configs/params.yaml --data-dir data/processed --tuning-dir reports/tuning --out-dir reports/calibration --model-dir models
 
 lint:
 	$(PYTHON) -m ruff check .

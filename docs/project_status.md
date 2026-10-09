@@ -12,8 +12,8 @@ Update this file in the same commit as each code change.
 | 4 | `feature/eda` | 3 | Merged |
 | 5 | `feature/feature-pipeline` | 5 | Merged |
 | 6 | `feature/model-comparison` | 6-7 | Merged |
-| 7 | `feature/tuning` | 8 | PR open (into `feature/model-training`): `make tune`, 30 trials, `reports/tuning.md` |
-| 8 | `feature/calibration-threshold` | 9 | Not started |
+| 7 | `feature/tuning` | 8 | Merged |
+| 8 | `feature/calibration-threshold` | 9 | PR open (into `feature/model-training`): `make calibrate`, `reports/calibration.md` |
 | 9 | `feature/final-evaluation` | 10 | Not started |
 | 10 | `feature/explainability` | 11 | Not started |
 | 11 | `feature/pyfunc-model` | 12 | Not started |
