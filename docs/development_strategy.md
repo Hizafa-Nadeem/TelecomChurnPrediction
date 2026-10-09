@@ -134,8 +134,7 @@ TelecomChurnPrediction/
 - Encapsulate in one fitted pipeline so training and serving use identical transforms.
 
 ### Step 6: Handling class imbalance
-- Churn is 14.1%. Primary: `auto_class_weights` / `scale_pos_weight` (preferred, no data distortion).
-- Compare against SMOTE/SMOTENC applied **inside CV only**.
+- Churn is 14.1%. Compared plain CatBoost, `auto_class_weights` and SMOTENC applied **inside CV only**. All three tied on PR-AUC, so **plain CatBoost is used** (`reports/baselines.md`).
 - Evaluate with PR-AUC; tune the threshold rather than relying on 0.5.
 
 ### Step 7: Baselines and primary model
@@ -148,12 +147,12 @@ TelecomChurnPrediction/
 - Report the gap with confidence intervals, and note that LightGBM matches CatBoost at a fraction of the training time.
 
 ### Step 8: Hyperparameter tuning
-- Optuna (TPE) with stratified CV, objective = PR-AUC, with pruning; budget 100-200 trials on CatBoost (`depth`, `learning_rate`, `l2_leaf_reg`, `iterations` with early stopping, `auto_class_weights`).
+- Optuna (TPE) with stratified CV, objective = PR-AUC, with pruning; 30 trials on CatBoost (`depth`, `learning_rate`, `l2_leaf_reg`, `iterations`, tuned directly because early stopping on the scored fold biases the CV). Result and reasons: `reports/tuning.md`.
 - Log params, metrics, and artifacts to MLflow.
 
 ### Step 9: Calibration and threshold selection
-- Calibrate probabilities (isotonic/Platt) on a held-out fold; check reliability curve.
-- Choose threshold on validation set by maximizing expected business value (cost matrix: offer cost vs. lost CLV), not F1 alone.
+- Calibrate probabilities (none/Platt/isotonic, chosen by cross-fitted Brier score) using out-of-fold predictions; check the reliability curve. Method and results: `reports/calibration.md`.
+- Choose the threshold on out-of-fold training predictions by maximizing realized business value (cost matrix: offer cost vs. saved CLV, assumptions in `params.yaml`), not F1 alone; on a flat value curve take the near-best threshold closest to the break-even probability.
 
 ### Step 10: Final evaluation
 - One-time run on the test set: ROC-AUC, PR-AUC, recall/precision at threshold, confusion matrix, lift/gain charts, calibration.

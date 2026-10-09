@@ -23,6 +23,41 @@ class SplitParams(BaseModel):
     cv_repeats: int = Field(ge=1)
 
 
+class TrainParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    catboost_iterations: int = Field(ge=1)
+    logreg_c_grid: list[float]
+
+
+class TuneParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    n_trials: int = Field(ge=1)
+    cv_folds: int = Field(ge=2)
+    cv_repeats: int = Field(ge=1)
+
+
+class BusinessParams(BaseModel):
+    """Assumptions for the retention value; the dataset has no customer-value column."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    remaining_months: int = Field(ge=1)
+    acceptance_rate: float = Field(gt=0, le=1)
+    offer_cost: float = Field(gt=0)
+
+
+class GateParams(BaseModel):
+    """Minimum test-set results for the model to be accepted (spec section 2 targets)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    min_pr_auc: float
+    min_roc_auc: float
+    min_recall: float
+
+
 class Params(BaseModel):
     """Contents of configs/params.yaml."""
 
@@ -31,6 +66,10 @@ class Params(BaseModel):
     seed: int
     data: DataParams
     split: SplitParams
+    train: TrainParams
+    tune: TuneParams
+    business: BusinessParams
+    gate: GateParams
 
 
 class Settings(BaseSettings):

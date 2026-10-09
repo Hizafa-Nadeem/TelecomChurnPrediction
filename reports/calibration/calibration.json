@@ -1,0 +1,53 @@
+{
+  "method": "isotonic",
+  "calibrators": {
+    "none": {
+      "brier": 0.02046,
+      "log_loss": 0.10523
+    },
+    "sigmoid": {
+      "brier": 0.02009,
+      "log_loss": 0.1023
+    },
+    "isotonic": {
+      "brier": 0.01941,
+      "log_loss": 0.10022
+    }
+  },
+  "decision": {
+    "threshold": 0.23,
+    "value": 92499.388,
+    "value_per_customer": 23.1248,
+    "max_value_on_grid": 92549.388,
+    "value_flag_everyone": -66438.632,
+    "break_even_probability": 0.2331,
+    "flagged_share": 0.1225,
+    "precision": 0.9959,
+    "recall": 0.8622
+  },
+  "assumptions": {
+    "remaining_months": 12,
+    "acceptance_rate": 0.3,
+    "offer_cost": 50.0
+  },
+  "value_by_threshold": {
+    "0.05": 92499,
+    "0.10": 92499,
+    "0.15": 92499,
+    "0.20": 92499,
+    "0.25": 92499,
+    "0.30": 92499,
+    "0.35": 92499,
+    "0.40": 92499,
+    "0.45": 92549,
+    "0.50": 92549,
+    "0.55": 92549,
+    "0.60": 92549,
+    "0.65": 92549,
+    "0.70": 92549,
+    "0.75": 92549,
+    "0.80": 92333,
+    "0.85": 92333,
+    "0.90": 92333
+  }
+}

@@ -11,3 +11,29 @@ split:
   test_size: 0.2
   cv_folds: 5
   cv_repeats: 3
+
+train:
+  catboost_iterations: 1000
+  logreg_c_grid: [0.01, 0.1, 1, 10, 100]
+
+# 30 trials: with 4 tuned parameters most of the gain comes early, and a CatBoost CV trial is slow on CPU.
+tune:
+  n_trials: 30
+  cv_folds: 5
+  cv_repeats: 1
+
+# Assumptions, not data: the dataset has no customer-value column.
+# Customer value (CLV) = monthly revenue (sum of the four total_*_charge) x remaining_months.
+business:
+  remaining_months: 12
+  acceptance_rate: 0.30
+  offer_cost: 50
+
+# Pass criteria for the one-time test-set evaluation, fixed before the test set is read.
+# PR-AUC and ROC-AUC are those of the model's raw score; recall is at the chosen threshold.
+# The model must also beat the logistic regression baseline on PR-AUC. A miss is reported with an
+# explanation (spec section 9) and the criteria are not changed afterwards.
+gate:
+  min_pr_auc: 0.85
+  min_roc_auc: 0.92
+  min_recall: 0.75
