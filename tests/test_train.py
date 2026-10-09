@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from churn.data import clean
 from churn.train import build_models, evaluate_model
-from helpers import PARAMS, TARGET, make_raw
+from helpers import PARAMS, TARGET, signal_frame
 
 FAST = PARAMS.model_copy(
     update={
@@ -12,15 +11,6 @@ FAST = PARAMS.model_copy(
         "split": PARAMS.split.model_copy(update={"cv_folds": 3, "cv_repeats": 1}),
     }
 )
-
-
-def signal_frame(n: int = 600, seed: int = 0) -> pd.DataFrame:
-    """Synthetic data where churn depends on international plan and 4+ service calls."""
-    df = clean(make_raw(n, seed), FAST)
-    rng = np.random.default_rng(seed)
-    logit = -2.5 + 2.0 * df["international_plan"] + 2.0 * (df["number_customer_service_calls"] >= 4)
-    df[TARGET] = (rng.uniform(size=n) < 1 / (1 + np.exp(-logit))).astype(int)
-    return df
 
 
 @pytest.fixture(scope="module")
