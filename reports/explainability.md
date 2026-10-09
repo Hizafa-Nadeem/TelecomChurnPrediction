@@ -38,7 +38,7 @@ Mean absolute SHAP value (log-odds) over the training split:
 
 ## Example reasons
 
-Ten random training customers (`example_reasons.csv`): the customer with a 0.92 churn probability gets `international_plan=1`, `total_intl_minutes=14.4`, `avg_day_call_length=1.0`; most customers with probabilities of 1-5% get zero or one weak reason. A customer with 5 service calls but a 2.8% churn probability is correctly shown with weak or no reasons, because other features outweigh it.
+Ten random training customers (`example_reasons.csv`): the customer with a 0.92 churn probability gets `international_plan=1`, `total_intl_minutes=14.4`, `avg_day_call_length=1.0`; customers with probabilities of 1-5% get between zero and two reasons. Reasons name what raises a customer's risk, not whether they will churn: one customer with 5 service calls is listed with `number_customer_service_calls=5` and `high_service_calls=1` although their churn probability is only 2.8%, because other features outweigh those. Read the reasons together with the probability and the decision, and only act on them for flagged customers.
 
 ## Limits
 
