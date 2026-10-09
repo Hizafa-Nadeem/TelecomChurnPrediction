@@ -23,6 +23,13 @@ class SplitParams(BaseModel):
     cv_repeats: int = Field(ge=1)
 
 
+class TrainParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    catboost_iterations: int = Field(ge=1)
+    logreg_c_grid: list[float]
+
+
 class Params(BaseModel):
     """Contents of configs/params.yaml."""
 
@@ -31,6 +38,7 @@ class Params(BaseModel):
     seed: int
     data: DataParams
     split: SplitParams
+    train: TrainParams
 
 
 class Settings(BaseSettings):
