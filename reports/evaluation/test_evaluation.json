@@ -1,0 +1,305 @@
+{
+  "threshold": 0.23,
+  "n_test": 1000,
+  "churners": 141,
+  "confusion": {
+    "tp": 121,
+    "fp": 1,
+    "fn": 20,
+    "tn": 858
+  },
+  "metrics": {
+    "pr_auc": {
+      "value": 0.899929066384878,
+      "ci95": [
+        0.8542956670207954,
+        0.9405011992337164
+      ]
+    },
+    "roc_auc": {
+      "value": 0.9210611051940653,
+      "ci95": [
+        0.8812703643699898,
+        0.9558055591242278
+      ]
+    },
+    "pr_auc_calibrated": {
+      "value": 0.8885761793877391,
+      "ci95": [
+        0.8396478640371017,
+        0.9337783763947936
+      ]
+    },
+    "roc_auc_calibrated": {
+      "value": 0.9204831611885832,
+      "ci95": [
+        0.8816043160311162,
+        0.9549405396917567
+      ]
+    },
+    "recall_at_precision_90": {
+      "value": 0.8652482269503546,
+      "ci95": [
+        0.8064342074727314,
+        0.9189238871224166
+      ]
+    },
+    "precision": {
+      "value": 0.9918032786885246,
+      "ci95": [
+        0.9732142857142857,
+        1.0
+      ]
+    },
+    "recall": {
+      "value": 0.8581560283687943,
+      "ci95": [
+        0.7985611510791367,
+        0.9124087591240876
+      ]
+    },
+    "f1": {
+      "value": 0.920152091254753,
+      "ci95": [
+        0.8845779220779221,
+        0.9520383060973467
+      ]
+    },
+    "flagged_share": {
+      "value": 0.122,
+      "ci95": [
+        0.101,
+        0.141
+      ]
+    },
+    "brier": {
+      "value": 0.019681165864505207,
+      "ci95": [
+        0.011844190560203848,
+        0.02841345713795302
+      ]
+    },
+    "log_loss": {
+      "value": 0.12422373212530158,
+      "ci95": [
+        0.07546955855726029,
+        0.18426661020477772
+      ]
+    },
+    "lift_top_decile": {
+      "value": 7.092198581560284,
+      "ci95": [
+        6.134969325153374,
+        8.403361344537815
+      ]
+    },
+    "retention_value_per_customer": {
+      "value": 22.697624,
+      "ci95": [
+        18.7225041,
+        26.547301100000002
+      ]
+    }
+  },
+  "baselines": {
+    "dummy_pr_auc": 0.141,
+    "logreg_pr_auc": 0.5427177838697808,
+    "logreg_roc_auc": 0.8720514535291738,
+    "pr_auc_gain_vs_logreg": {
+      "value": 0.35721128251509726,
+      "ci95": [
+        0.2841878418815344,
+        0.43638290645670946
+      ]
+    }
+  },
+  "segments": [
+    {
+      "segment": "international_plan",
+      "level": "no",
+      "n": 907,
+      "churners": 103,
+      "churn_rate": 0.1136,
+      "recall": 0.8058,
+      "recall_ci95": [
+        0.719,
+        0.8706
+      ],
+      "precision": 0.9881,
+      "flagged_share": 0.0926
+    },
+    {
+      "segment": "international_plan",
+      "level": "yes",
+      "n": 93,
+      "churners": 38,
+      "churn_rate": 0.4086,
+      "recall": 1.0,
+      "recall_ci95": [
+        0.9082,
+        1.0
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.4086
+    },
+    {
+      "segment": "service_calls",
+      "level": "0-1",
+      "n": 550,
+      "churners": 58,
+      "churn_rate": 0.1055,
+      "recall": 0.8448,
+      "recall_ci95": [
+        0.7307,
+        0.9162
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.0891
+    },
+    {
+      "segment": "service_calls",
+      "level": "2-3",
+      "n": 369,
+      "churners": 41,
+      "churn_rate": 0.1111,
+      "recall": 0.7317,
+      "recall_ci95": [
+        0.5807,
+        0.8431
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.0813
+    },
+    {
+      "segment": "service_calls",
+      "level": "4+",
+      "n": 81,
+      "churners": 42,
+      "churn_rate": 0.5185,
+      "recall": 1.0,
+      "recall_ci95": [
+        0.9162,
+        1.0
+      ],
+      "precision": 0.9767,
+      "flagged_share": 0.5309
+    },
+    {
+      "segment": "voice_mail_plan",
+      "level": "no",
+      "n": 738,
+      "churners": 118,
+      "churn_rate": 0.1599,
+      "recall": 0.8644,
+      "recall_ci95": [
+        0.7911,
+        0.9148
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.1382
+    },
+    {
+      "segment": "voice_mail_plan",
+      "level": "yes",
+      "n": 262,
+      "churners": 23,
+      "churn_rate": 0.0878,
+      "recall": 0.8261,
+      "recall_ci95": [
+        0.6286,
+        0.9302
+      ],
+      "precision": 0.95,
+      "flagged_share": 0.0763
+    },
+    {
+      "segment": "area_code",
+      "level": "408",
+      "n": 235,
+      "churners": 38,
+      "churn_rate": 0.1617,
+      "recall": 0.8421,
+      "recall_ci95": [
+        0.6958,
+        0.9256
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.1362
+    },
+    {
+      "segment": "area_code",
+      "level": "415",
+      "n": 479,
+      "churners": 55,
+      "churn_rate": 0.1148,
+      "recall": 0.8182,
+      "recall_ci95": [
+        0.6967,
+        0.8981
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.0939
+    },
+    {
+      "segment": "area_code",
+      "level": "510",
+      "n": 286,
+      "churners": 48,
+      "churn_rate": 0.1678,
+      "recall": 0.9167,
+      "recall_ci95": [
+        0.8045,
+        0.9671
+      ],
+      "precision": 0.9778,
+      "flagged_share": 0.1573
+    },
+    {
+      "segment": "state_group",
+      "level": "high-churn states",
+      "n": 211,
+      "churners": 36,
+      "churn_rate": 0.1706,
+      "recall": 0.8056,
+      "recall_ci95": [
+        0.6497,
+        0.9025
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.1374
+    },
+    {
+      "segment": "state_group",
+      "level": "low-churn states",
+      "n": 184,
+      "churners": 23,
+      "churn_rate": 0.125,
+      "recall": 0.8696,
+      "recall_ci95": [
+        0.6787,
+        0.9546
+      ],
+      "precision": 0.9524,
+      "flagged_share": 0.1141
+    },
+    {
+      "segment": "state_group",
+      "level": "middle",
+      "n": 605,
+      "churners": 82,
+      "churn_rate": 0.1355,
+      "recall": 0.878,
+      "recall_ci95": [
+        0.7899,
+        0.9324
+      ],
+      "precision": 1.0,
+      "flagged_share": 0.119
+    }
+  ],
+  "assumptions": {
+    "remaining_months": 12,
+    "acceptance_rate": 0.3,
+    "offer_cost": 50.0
+  }
+}
