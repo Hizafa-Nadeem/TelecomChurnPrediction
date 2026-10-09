@@ -21,3 +21,10 @@ tune:
   n_trials: 30
   cv_folds: 5
   cv_repeats: 1
+
+# Assumptions, not data: the dataset has no customer-value column.
+# Customer value (CLV) = monthly revenue (sum of the four total_*_charge) x remaining_months.
+business:
+  remaining_months: 12
+  acceptance_rate: 0.30
+  offer_cost: 50

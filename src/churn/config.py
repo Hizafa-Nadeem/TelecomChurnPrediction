@@ -38,6 +38,16 @@ class TuneParams(BaseModel):
     cv_repeats: int = Field(ge=1)
 
 
+class BusinessParams(BaseModel):
+    """Assumptions for the retention value; the dataset has no customer-value column."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    remaining_months: int = Field(ge=1)
+    acceptance_rate: float = Field(gt=0, le=1)
+    offer_cost: float = Field(gt=0)
+
+
 class Params(BaseModel):
     """Contents of configs/params.yaml."""
 
@@ -48,6 +58,7 @@ class Params(BaseModel):
     split: SplitParams
     train: TrainParams
     tune: TuneParams
+    business: BusinessParams
 
 
 class Settings(BaseSettings):

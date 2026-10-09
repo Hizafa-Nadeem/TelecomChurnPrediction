@@ -8,9 +8,7 @@ re-scored with the full repeated CV so the result compares directly with the bas
 """
 
 import argparse
-import hashlib
 import json
-import subprocess
 import time
 from collections.abc import Callable
 from pathlib import Path
@@ -25,7 +23,7 @@ from sklearn.model_selection import RepeatedStratifiedKFold
 
 from churn.config import Params, Settings, load_params
 from churn.split import TRAIN_FILE, load_train
-from churn.train import CATBOOST_FIT_PARAMS, build_models, evaluate_model
+from churn.train import CATBOOST_FIT_PARAMS, build_models, evaluate_model, file_sha256, git_sha
 
 BEST_PARAMS_FILE = "best_params.json"
 
@@ -109,11 +107,13 @@ def run(
     mlflow.set_experiment(settings.mlflow_experiment_name)
     start = time.time()
     with mlflow.start_run(run_name="tuning"):
-        sha = subprocess.run(
-            ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
-        ).stdout.strip()
-        data_hash = hashlib.sha256((data_dir / TRAIN_FILE).read_bytes()).hexdigest()
-        mlflow.set_tags({"git_sha": sha, "data_sha256": data_hash, "stage": "tuning"})
+        mlflow.set_tags(
+            {
+                "git_sha": git_sha(),
+                "data_sha256": file_sha256(data_dir / TRAIN_FILE),
+                "stage": "tuning",
+            }
+        )
         mlflow.log_params({"seed": params.seed, "n_trials": params.tune.n_trials})
         study = tune(X, y, params)
 

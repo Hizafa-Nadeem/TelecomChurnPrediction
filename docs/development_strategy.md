@@ -151,8 +151,8 @@ TelecomChurnPrediction/
 - Log params, metrics, and artifacts to MLflow.
 
 ### Step 9: Calibration and threshold selection
-- Calibrate probabilities (isotonic/Platt) on a held-out fold; check reliability curve.
-- Choose threshold on validation set by maximizing expected business value (cost matrix: offer cost vs. lost CLV), not F1 alone.
+- Calibrate probabilities (none/Platt/isotonic, chosen by cross-fitted Brier score) using out-of-fold predictions; check the reliability curve. Method and results: `reports/calibration.md`.
+- Choose the threshold on out-of-fold training predictions by maximizing realized business value (cost matrix: offer cost vs. saved CLV, assumptions in `params.yaml`), not F1 alone; on a flat value curve take the near-best threshold closest to the break-even probability.
 
 ### Step 10: Final evaluation
 - One-time run on the test set: ROC-AUC, PR-AUC, recall/precision at threshold, confusion matrix, lift/gain charts, calibration.

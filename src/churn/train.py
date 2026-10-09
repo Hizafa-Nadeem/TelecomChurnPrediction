@@ -89,16 +89,22 @@ def evaluate_model(
         model, X, y, cv=make_cv(params), scoring=SCORING, return_train_score=True, params=fit_params
     )
     metrics: dict[str, float] = {}
-    for name in SCORING:
-        val, train = scores[f"test_{name}"], scores[f"train_{name}"]
-        metrics[f"cv_{name}_mean"] = float(np.mean(val))
-        metrics[f"cv_{name}_std"] = float(np.std(val))
-        metrics[f"train_{name}_mean"] = float(np.mean(train))
-        metrics[f"gap_{name}"] = float(np.mean(train) - np.mean(val))
+    for metric in SCORING:
+        val, train = scores[f"test_{metric}"], scores[f"train_{metric}"]
+        metrics[f"cv_{metric}_mean"] = float(np.mean(val))
+        metrics[f"cv_{metric}_std"] = float(np.std(val))
+        metrics[f"train_{metric}_mean"] = float(np.mean(train))
+        metrics[f"gap_{metric}"] = float(np.mean(train) - np.mean(val))
     return metrics
 
 
-def _git_sha() -> str:
+def file_sha256(path: Path) -> str:
+    """Hash of a data file, logged so a run can be tied to the exact data."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def git_sha() -> str:
+    """Current commit, logged with every MLflow run."""
     return subprocess.run(
         ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
     ).stdout.strip()
@@ -108,14 +114,14 @@ def run(params: Params, config_path: Path, data_dir: Path, settings: Settings) -
     """Score every variant, log one MLflow run each, and return the results table."""
     train = load_train(data_dir)
     X, y = train.drop(columns=params.data.target), train[params.data.target]
-    data_hash = hashlib.sha256((data_dir / TRAIN_FILE).read_bytes()).hexdigest()
+    data_hash = file_sha256(data_dir / TRAIN_FILE)
 
     mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
     mlflow.set_experiment(settings.mlflow_experiment_name)
     rows = {}
     for name, model in build_models(params).items():
         with mlflow.start_run(run_name=name):
-            mlflow.set_tags({"git_sha": _git_sha(), "data_sha256": data_hash, "stage": "baselines"})
+            mlflow.set_tags({"git_sha": git_sha(), "data_sha256": data_hash, "stage": "baselines"})
             mlflow.log_params(
                 {
                     "model": name,
