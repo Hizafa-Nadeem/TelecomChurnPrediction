@@ -147,7 +147,7 @@ TelecomChurnPrediction/
 - Report the gap with confidence intervals, and note that LightGBM matches CatBoost at a fraction of the training time.
 
 ### Step 8: Hyperparameter tuning
-- Optuna (TPE) with stratified CV, objective = PR-AUC, with pruning; budget 100-200 trials on CatBoost (`depth`, `learning_rate`, `l2_leaf_reg`, `iterations` with early stopping).
+- Optuna (TPE) with stratified CV, objective = PR-AUC, with pruning; 30 trials on CatBoost (`depth`, `learning_rate`, `l2_leaf_reg`, `iterations`, tuned directly because early stopping on the scored fold biases the CV). Result and reasons: `reports/tuning.md`.
 - Log params, metrics, and artifacts to MLflow.
 
 ### Step 9: Calibration and threshold selection

@@ -30,6 +30,14 @@ class TrainParams(BaseModel):
     logreg_c_grid: list[float]
 
 
+class TuneParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    n_trials: int = Field(ge=1)
+    cv_folds: int = Field(ge=2)
+    cv_repeats: int = Field(ge=1)
+
+
 class Params(BaseModel):
     """Contents of configs/params.yaml."""
 
@@ -39,6 +47,7 @@ class Params(BaseModel):
     data: DataParams
     split: SplitParams
     train: TrainParams
+    tune: TuneParams
 
 
 class Settings(BaseSettings):

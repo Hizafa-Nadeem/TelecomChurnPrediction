@@ -15,3 +15,9 @@ split:
 train:
   catboost_iterations: 1000
   logreg_c_grid: [0.01, 0.1, 1, 10, 100]
+
+# 30 trials: with 4 tuned parameters most of the gain comes early, and a CatBoost CV trial is slow on CPU.
+tune:
+  n_trials: 30
+  cv_folds: 5
+  cv_repeats: 1

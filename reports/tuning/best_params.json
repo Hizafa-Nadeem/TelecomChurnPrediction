@@ -1,0 +1,22 @@
+{
+  "best_params": {
+    "depth": 5,
+    "learning_rate": 0.12397259302976399,
+    "l2_leaf_reg": 17.41662564374537,
+    "iterations": 200
+  },
+  "tune_best_pr_auc": 0.903,
+  "final_cv": {
+    "cv_pr_auc_mean": 0.9016,
+    "cv_pr_auc_std": 0.0237,
+    "train_pr_auc_mean": 0.9718,
+    "gap_pr_auc": 0.0702,
+    "cv_roc_auc_mean": 0.9278,
+    "cv_roc_auc_std": 0.0197,
+    "train_roc_auc_mean": 0.9896,
+    "gap_roc_auc": 0.0618
+  },
+  "trials": 30,
+  "pruned": 0,
+  "total_seconds": 2503
+}
