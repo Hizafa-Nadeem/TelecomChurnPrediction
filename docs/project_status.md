@@ -13,8 +13,8 @@ Update this file in the same commit as each code change.
 | 5 | `feature/feature-pipeline` | 5 | Merged |
 | 6 | `feature/model-comparison` | 6-7 | Merged |
 | 7 | `feature/tuning` | 8 | Merged |
-| 8 | `feature/calibration-threshold` | 9 | PR open (into `feature/model-training`): `make calibrate`, `reports/calibration.md` |
-| 9 | `feature/final-evaluation` | 10 | Not started |
+| 8 | `feature/calibration-threshold` | 9 | Merged |
+| 9 | `feature/final-evaluation` | 10 | PR open (into `feature/model-training`): test set evaluated once, `make gate` PASS, `reports/final_evaluation.md` |
 | 10 | `feature/explainability` | 11 | Not started |
 | 11 | `feature/pyfunc-model` | 12 | Not started |
 | 12 | `feature/api-docker-loadtest` | 12 | Not started |

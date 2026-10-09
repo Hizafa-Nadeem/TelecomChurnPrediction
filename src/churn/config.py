@@ -48,6 +48,16 @@ class BusinessParams(BaseModel):
     offer_cost: float = Field(gt=0)
 
 
+class GateParams(BaseModel):
+    """Minimum test-set results for the model to be accepted (spec section 2 targets)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    min_pr_auc: float
+    min_roc_auc: float
+    min_recall: float
+
+
 class Params(BaseModel):
     """Contents of configs/params.yaml."""
 
@@ -59,6 +69,7 @@ class Params(BaseModel):
     train: TrainParams
     tune: TuneParams
     business: BusinessParams
+    gate: GateParams
 
 
 class Settings(BaseSettings):
