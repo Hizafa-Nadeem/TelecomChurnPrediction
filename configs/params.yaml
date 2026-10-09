@@ -28,3 +28,12 @@ business:
   remaining_months: 12
   acceptance_rate: 0.30
   offer_cost: 50
+
+# Pass criteria for the one-time test-set evaluation, fixed before the test set is read.
+# PR-AUC and ROC-AUC are those of the model's raw score; recall is at the chosen threshold.
+# The model must also beat the logistic regression baseline on PR-AUC. A miss is reported with an
+# explanation (spec section 9) and the criteria are not changed afterwards.
+gate:
+  min_pr_auc: 0.85
+  min_roc_auc: 0.92
+  min_recall: 0.75
