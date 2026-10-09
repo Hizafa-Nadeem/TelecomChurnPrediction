@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python
 
-.PHONY: setup data split train tune calibrate evaluate gate lint typecheck test check
+.PHONY: setup data split train tune calibrate evaluate gate explain lint typecheck test check
 
 setup:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -26,6 +26,9 @@ evaluate:
 
 gate:
 	$(PYTHON) -m churn.gate --config configs/params.yaml --result reports/evaluation/test_evaluation.json
+
+explain:
+	$(PYTHON) -m churn.explain --config configs/params.yaml --data-dir data/processed --model-dir models --out-dir reports/explainability
 
 lint:
 	$(PYTHON) -m ruff check .

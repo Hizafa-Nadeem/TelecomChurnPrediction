@@ -161,7 +161,7 @@ TelecomChurnPrediction/
 
 ### Step 11: Explainability
 - Global: SHAP summary, feature importance (column names are descriptive, so reasons read clearly, for example "high `total_day_minutes`"; `state` is only an anonymous code).
-- Local: per-customer SHAP reasons returned with each prediction (feeds retention playbook).
+- Local: per-customer SHAP reasons returned with each prediction (feeds retention playbook): the features raising risk by at least 0.1 log-odds, top 3 (`churn.explain.top_reasons`; results in `reports/explainability.md`).
 
 ### Step 12: Productionization
 - Serialize full pipeline + model + threshold + metadata (versioned) via MLflow Model Registry (Staging -> Production).
