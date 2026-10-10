@@ -15,8 +15,8 @@ Update this file in the same commit as each code change.
 | 7 | `feature/tuning` | 8 | Merged |
 | 8 | `feature/calibration-threshold` | 9 | Merged |
 | 9 | `feature/final-evaluation` | 10 | PR open (into `feature/model-training`): test set evaluated once, `make gate` PASS, `reports/final_evaluation.md` |
-| 10 | `feature/explainability` | 11 | PR open: `make explain`, `top_reasons` for the served model, `reports/explainability.md` |
-| 11 | `feature/pyfunc-model` | 12 | Not started |
+| 10 | `feature/explainability` | 11 | Merged |
+| 11 | `feature/pyfunc-model` | 12 | PR open: `make package`, registered `churn-catboost@production`, `docs/serving.md` |
 | 12 | `feature/api-docker-loadtest` | 12 | Not started |
 
 ## Environment notes

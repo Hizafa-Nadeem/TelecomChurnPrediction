@@ -23,49 +23,18 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from sklearn.base import clone  # noqa: E402
 from sklearn.calibration import calibration_curve  # noqa: E402
-from sklearn.isotonic import IsotonicRegression  # noqa: E402
-from sklearn.linear_model import LogisticRegression  # noqa: E402
 from sklearn.metrics import brier_score_loss, log_loss  # noqa: E402
 from sklearn.model_selection import StratifiedKFold  # noqa: E402
 
+from churn.calibrator import METHODS, Calibrator  # noqa: E402
 from churn.config import BusinessParams, Params, Settings, load_params  # noqa: E402
 from churn.features import derive_features  # noqa: E402
 from churn.split import TRAIN_FILE, load_train, make_cv  # noqa: E402
 from churn.train import CATBOOST_FIT_PARAMS, build_models, file_sha256, git_sha  # noqa: E402
 from churn.tune import BEST_PARAMS_FILE  # noqa: E402
 
-METHODS = ("none", "sigmoid", "isotonic")
 THRESHOLDS = np.round(np.arange(0.02, 0.95, 0.01), 2)
 PLATEAU_TOLERANCE = 0.005  # within 0.5% of the best value counts as equally good
-
-
-def _logit(p: np.ndarray) -> np.ndarray:
-    p = np.clip(p, 1e-6, 1 - 1e-6)
-    return np.log(p / (1 - p)).reshape(-1, 1)
-
-
-class Calibrator:
-    """Maps raw model probabilities to calibrated ones: identity, Platt (sigmoid) or isotonic."""
-
-    def __init__(self, method: str) -> None:
-        if method not in METHODS:
-            raise ValueError(f"unknown calibration method: {method!r}")
-        self.method = method
-        self.model: Any = None
-
-    def fit(self, p: np.ndarray, y: np.ndarray) -> "Calibrator":
-        if self.method == "sigmoid":
-            self.model = LogisticRegression(C=1e6).fit(_logit(p), y)
-        elif self.method == "isotonic":
-            self.model = IsotonicRegression(y_min=0, y_max=1, out_of_bounds="clip").fit(p, y)
-        return self
-
-    def predict(self, p: np.ndarray) -> np.ndarray:
-        if self.method == "sigmoid":
-            return np.asarray(self.model.predict_proba(_logit(p))[:, 1])
-        if self.method == "isotonic":
-            return np.asarray(self.model.predict(p))
-        return np.asarray(p, dtype=float)
 
 
 def tuned_pipeline(params: Params, tuning_dir: Path) -> Any:
