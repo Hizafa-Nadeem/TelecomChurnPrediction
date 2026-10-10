@@ -1,0 +1,11 @@
+,churn_probability,churned,reason_1,reason_2,reason_3
+555,0.02,0,avg_day_call_length=1.0,,
+3491,0.921,1,international_plan=1,total_intl_minutes=14.4,avg_day_call_length=1.0
+527,0.033,0,,,
+3925,0.023,0,number_vmail_messages=49,,
+2989,0.028,0,number_customer_service_calls=5,high_service_calls=1,
+70,0.019,0,,,
+1756,0.021,0,total_intl_calls=1,,
+211,0.031,0,total_intl_calls=2,total_night_minutes=290.0,
+196,0.053,0,account_length=155,,
+803,0.011,0,,,
