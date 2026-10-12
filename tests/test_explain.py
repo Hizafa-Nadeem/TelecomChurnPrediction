@@ -9,8 +9,9 @@ from catboost import Pool
 from sklearn.base import clone
 
 from churn.config import Settings
-from churn.explain import MIN_CONTRIBUTION, run, shap_contributions, top_reasons
+from churn.explain import run
 from churn.features import catboost_cat_features
+from churn.reasons import MIN_CONTRIBUTION, shap_contributions, top_reasons
 from churn.split import TRAIN_FILE
 from churn.train import CATBOOST_FIT_PARAMS, build_models
 from helpers import PARAMS, TARGET, signal_frame

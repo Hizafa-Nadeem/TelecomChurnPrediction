@@ -5,12 +5,11 @@
 
 SHAP values come from CatBoost's exact TreeSHAP (`ShapValues`), so they handle the categorical
 columns natively and add up to the model's raw score. Global plots use the training split; the
-test split is never read. `top_reasons` is the per-customer logic the served model reuses.
+test split is never read. The per-customer logic the served model reuses is in `churn.reasons`.
 """
 
 import argparse
 from pathlib import Path
-from typing import Any
 
 import joblib
 import matplotlib
@@ -21,52 +20,14 @@ import mlflow  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 import shap  # noqa: E402
-from catboost import Pool  # noqa: E402
 
 from churn.config import Params, Settings, load_params  # noqa: E402
 from churn.features import catboost_cat_features  # noqa: E402
+from churn.reasons import shap_contributions, top_reasons  # noqa: E402
 from churn.split import TRAIN_FILE, load_train  # noqa: E402
 from churn.train import file_sha256, git_sha  # noqa: E402
 
-N_REASONS = 3
-# Smaller pushes (about +10% on the odds of churn) are noise, not reasons to act on.
-MIN_CONTRIBUTION = 0.1
 N_EXAMPLES = 10
-
-
-def shap_contributions(model: Any, X: pd.DataFrame) -> tuple[pd.DataFrame, np.ndarray]:
-    """Engineered features and their SHAP contributions to the log-odds of churn.
-
-    `model` is the fitted pipeline (feature step, then CatBoost). Row i's contributions plus the
-    model's base value equal its raw score.
-    """
-    features = model[:-1].transform(X)
-    pool = Pool(features, cat_features=catboost_cat_features())
-    values = model[-1].get_feature_importance(pool, type="ShapValues")
-    return features, values[:, :-1]
-
-
-def _describe(name: str, value: object) -> str:
-    return f"{name}={value:.1f}" if isinstance(value, float) else f"{name}={value}"
-
-
-def top_reasons(model: Any, X: pd.DataFrame, k: int = N_REASONS) -> pd.DataFrame:
-    """The `k` features pushing each customer's churn risk up the most, as `reason_1..k`.
-
-    Only features whose contribution is at least `MIN_CONTRIBUTION` are listed, so customers with
-    no clear risk driver get empty slots.
-    """
-    features, contributions = shap_contributions(model, X)
-    rows = []
-    for values, contrib in zip(features.to_numpy(dtype=object), contributions, strict=True):
-        best = np.argsort(-contrib)[:k]
-        rows.append(
-            [
-                _describe(features.columns[i], values[i]) if contrib[i] >= MIN_CONTRIBUTION else ""
-                for i in best
-            ]
-        )
-    return pd.DataFrame(rows, columns=[f"reason_{i + 1}" for i in range(k)], index=X.index)
 
 
 def importance_plot(importance: pd.Series, path: Path) -> None:
