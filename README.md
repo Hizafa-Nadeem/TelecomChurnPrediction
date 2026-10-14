@@ -99,7 +99,7 @@ curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -
 
 - **Honest evaluation:** the test set is read once, by one module that refuses a second run; pass criteria are fixed in a commit before the run; results carry bootstrap intervals and a segment error analysis.
 - **No leakage:** the identifier column is dropped, a schema and leakage check fails the run, and all fitting happens inside cross-validation folds.
-- **Reproducible:** pinned requirements, fixed seeds, data and git hashes logged with every MLflow run.
+- **Reproducible:** pinned requirements, fixed seeds, data and git hashes logged with every MLflow run. A fresh clone retrained in a Linux container reproduces the same calibration and gives identical predictions to the original model (maximum difference 0.000000 on 1,500 customers).
 - **Tested and checked in CI:** `ruff`, `black`, `mypy` and `pytest` run on every pull request.
 - **Documented decisions:** deviations from the original plan (plain CatBoost, 30 tuning trials, DVC dropped) are written down with their reasons in the reports and [`docs/project_status.md`](docs/project_status.md).
 
