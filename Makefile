@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python
 
-.PHONY: setup data split train tune calibrate evaluate gate explain package serve docker-build docker-run loadtest lint typecheck test check
+.PHONY: setup data split train tune calibrate evaluate gate explain package quickstart serve docker-build docker-run loadtest lint typecheck test check
 
 setup:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -32,6 +32,10 @@ explain:
 
 package:
 	$(PYTHON) -m churn.package --config configs/params.yaml --data-dir data/processed --model-dir models --calibration-dir reports/calibration --evaluation-dir reports/evaluation --export-dir build/model
+
+# From a fresh clone (after `make setup`): download the data, retrain the model with the committed
+# tuned settings, register it and export it. `make serve` or `make docker-build` then serve it.
+quickstart: data split calibrate package
 
 serve:
 	$(PYTHON) -m uvicorn api.main:app --host 127.0.0.1 --port 8000

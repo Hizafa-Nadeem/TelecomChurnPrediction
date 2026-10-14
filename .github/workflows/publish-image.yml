@@ -1,0 +1,57 @@
+name: Publish image
+
+# Builds the API image from source and publishes it to GitHub Container Registry.
+# Run it by pushing a tag such as v1.0, or from the Actions tab (Run workflow).
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      # The model is not stored in git: it is retrained from source (data, split, tuned settings).
+      - run: make setup PYTHON=python
+      - run: make data PYTHON=python
+      - run: make split PYTHON=python
+      - run: cp reports/calibration/calibration.json /tmp/committed_calibration.json
+      - run: make calibrate PYTHON=python
+      - name: Retrained model matches the evaluated one
+        run: python scripts/check_calibration.py /tmp/committed_calibration.json reports/calibration/calibration.json
+      - run: make package PYTHON=python
+
+      - name: Build the image
+        run: |
+          IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+          docker build -t "$IMAGE:${GITHUB_REF_NAME//\//-}" -t "$IMAGE:latest" .
+
+      - name: Smoke test the container
+        run: |
+          docker run -d --name api -p 8000:8000 "$IMAGE:latest"
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8000/health && break; sleep 2; done
+          curl -sf -X POST http://127.0.0.1:8000/predict \
+            -H "Content-Type: application/json" -d @docs/sample_customer.json | tee /tmp/out.json
+          python -c "import json; r = json.load(open('/tmp/out.json')); assert r['decision'] == 1 and r['churn_probability'] > 0.9, r"
+          docker rm -f api
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push
+        run: docker push --all-tags "$IMAGE"
