@@ -1,6 +1,10 @@
 # Churn prediction API. Build the model folder first: `make package` (writes build/model).
 FROM python:3.11-slim
 
+LABEL org.opencontainers.image.source="https://github.com/Hizafa-Nadeem/TelecomChurnPrediction" \
+      org.opencontainers.image.description="Telecom churn prediction API: calibrated CatBoost with per-customer reasons" \
+      org.opencontainers.image.licenses="MIT"
+
 # CatBoost needs the OpenMP runtime.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libgomp1 \
