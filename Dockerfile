@@ -19,6 +19,11 @@ RUN grep -v '^mlflow==' model/requirements.txt > /tmp/model-requirements.txt \
 
 COPY api ./api
 
+# Links the image to this repository on GitHub. Kept late so the slow install layers stay cached.
+LABEL org.opencontainers.image.source="https://github.com/Hizafa-Nadeem/TelecomChurnPrediction" \
+      org.opencontainers.image.description="Telecom churn prediction API: calibrated CatBoost with per-customer reasons" \
+      org.opencontainers.image.licenses="MIT"
+
 ENV MODEL_URI=/app/model \
     WEB_CONCURRENCY=4
 USER app
