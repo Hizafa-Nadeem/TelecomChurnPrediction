@@ -1,10 +1,6 @@
 # Churn prediction API. Build the model folder first: `make package` (writes build/model).
 FROM python:3.11-slim
 
-LABEL org.opencontainers.image.source="https://github.com/Hizafa-Nadeem/TelecomChurnPrediction" \
-      org.opencontainers.image.description="Telecom churn prediction API: calibrated CatBoost with per-customer reasons" \
-      org.opencontainers.image.licenses="MIT"
-
 # CatBoost needs the OpenMP runtime.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libgomp1 \
@@ -22,6 +18,11 @@ RUN grep -v '^mlflow==' model/requirements.txt > /tmp/model-requirements.txt \
         -r requirements-api.txt -r /tmp/model-requirements.txt mlflow-skinny==3.16.1
 
 COPY api ./api
+
+# Links the image to this repository on GitHub. Kept late so the slow install layers stay cached.
+LABEL org.opencontainers.image.source="https://github.com/Hizafa-Nadeem/TelecomChurnPrediction" \
+      org.opencontainers.image.description="Telecom churn prediction API: calibrated CatBoost with per-customer reasons" \
+      org.opencontainers.image.licenses="MIT"
 
 ENV MODEL_URI=/app/model \
     WEB_CONCURRENCY=4
