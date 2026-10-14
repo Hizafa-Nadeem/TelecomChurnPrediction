@@ -1,11 +1,13 @@
 """Test helpers shared across test modules."""
 
+import json
 from pathlib import Path
 
+import mlflow
 import numpy as np
 import pandas as pd
 
-from churn.config import load_params
+from churn.config import Settings, load_params
 from churn.data import clean
 
 PARAMS = load_params(Path(__file__).resolve().parents[1] / "configs" / "params.yaml")
@@ -40,3 +42,29 @@ def signal_frame(n: int = 600, seed: int = 0) -> pd.DataFrame:
     logit = -2.5 + 2.0 * df["international_plan"] + 2.0 * (df["number_customer_service_calls"] >= 4)
     df[TARGET] = (rng.uniform(size=n) < 1 / (1 + np.exp(-logit))).astype(int)
     return df
+
+
+MODEL_NAME = "test-churn"
+
+
+def evaluation_json(pr_auc: float = 0.9) -> str:
+    """A test-set evaluation result that passes the gate (unless `pr_auc` is lowered)."""
+    return json.dumps(
+        {
+            "metrics": {
+                "pr_auc": {"value": pr_auc},
+                "roc_auc": {"value": 0.93},
+                "recall": {"value": 0.86},
+            },
+            "baselines": {"logreg_pr_auc": 0.55},
+        }
+    )
+
+
+def registry_settings() -> Settings:
+    """Settings pointing at the temporary MLflow registry of the current test."""
+    return Settings(
+        mlflow_tracking_uri=mlflow.get_tracking_uri(),
+        mlflow_experiment_name="t",
+        mlflow_model_name=MODEL_NAME,
+    )

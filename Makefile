@@ -1,6 +1,6 @@
 PYTHON ?= .venv/Scripts/python
 
-.PHONY: setup data split train tune calibrate evaluate gate explain package lint typecheck test check
+.PHONY: setup data split train tune calibrate evaluate gate explain package serve docker-build docker-run loadtest lint typecheck test check
 
 setup:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -31,14 +31,26 @@ explain:
 	$(PYTHON) -m churn.explain --config configs/params.yaml --data-dir data/processed --model-dir models --out-dir reports/explainability
 
 package:
-	$(PYTHON) -m churn.pyfunc_model --config configs/params.yaml --data-dir data/processed --model-dir models --calibration-dir reports/calibration --evaluation-dir reports/evaluation
+	$(PYTHON) -m churn.package --config configs/params.yaml --data-dir data/processed --model-dir models --calibration-dir reports/calibration --evaluation-dir reports/evaluation --export-dir build/model
+
+serve:
+	$(PYTHON) -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+
+docker-build:
+	docker build -t churn-api:local .
+
+docker-run:
+	docker run --rm -p 8000:8000 churn-api:local
+
+loadtest:
+	$(PYTHON) -m locust -f tests/load/locustfile.py --headless -u 10 -r 5 -t 60s --host http://127.0.0.1:8000 --csv reports/load/locust
 
 lint:
 	$(PYTHON) -m ruff check .
 	$(PYTHON) -m black --check .
 
 typecheck:
-	$(PYTHON) -m mypy src tests
+	$(PYTHON) -m mypy src api tests
 
 test:
 	$(PYTHON) -m pytest

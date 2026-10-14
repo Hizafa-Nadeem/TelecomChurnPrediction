@@ -6,8 +6,6 @@ Every variant is scored with the same repeated stratified CV on the training spl
 """
 
 import argparse
-import hashlib
-import subprocess
 from pathlib import Path
 
 import mlflow
@@ -24,6 +22,7 @@ from sklearn.pipeline import Pipeline
 
 from churn.config import Params, Settings, load_params
 from churn.features import FEATURE_COLUMNS, FLAG_COLUMNS, build_pipeline, catboost_cat_features
+from churn.runinfo import file_sha256, git_sha
 from churn.split import TRAIN_FILE, load_train, make_cv
 from churn.validation import CATEGORICAL_COLUMNS
 
@@ -96,18 +95,6 @@ def evaluate_model(
         metrics[f"train_{metric}_mean"] = float(np.mean(train))
         metrics[f"gap_{metric}"] = float(np.mean(train) - np.mean(val))
     return metrics
-
-
-def file_sha256(path: Path) -> str:
-    """Hash of a data file, logged so a run can be tied to the exact data."""
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def git_sha() -> str:
-    """Current commit, logged with every MLflow run."""
-    return subprocess.run(
-        ["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True
-    ).stdout.strip()
 
 
 def run(params: Params, config_path: Path, data_dir: Path, settings: Settings) -> pd.DataFrame:

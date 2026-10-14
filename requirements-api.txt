@@ -1,0 +1,5 @@
+# Extra packages the API needs on top of the model's own requirements (build/model/requirements.txt).
+fastapi==0.142.2
+uvicorn==0.54.0
+pydantic==2.13.5
+pydantic-settings==2.15.0
