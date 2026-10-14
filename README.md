@@ -114,7 +114,7 @@ curl -X POST http://127.0.0.1:8000/predict -H "Content-Type: application/json" -
 
 ## Development
 
-Built as a step-by-step project plan ([`docs/project_spec.md`](docs/project_spec.md), [`docs/development_strategy.md`](docs/development_strategy.md)), one reviewed pull request per step, with [Claude Code](https://claude.com/claude-code) as a coding assistant (visible in the commit history).
+Built step by step from a written plan ([`docs/project_spec.md`](docs/project_spec.md), [`docs/development_strategy.md`](docs/development_strategy.md)), with one reviewed pull request per step. The design decisions are the author's, for example plain CatBoost instead of class weights, 30 tuning trials, dropping DVC, and an evaluation whose pass criteria were fixed before the test set was read. [Claude Code](https://claude.com/claude-code) was used as a coding assistant, which is visible in the commit history.
 
 ## License
 
