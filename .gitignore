@@ -30,3 +30,9 @@ Thumbs.db
 # Local build plan (not committed)
 docs/v1_build_plan.md
 *.egg-info/
+
+# Exported model for the Docker image
+build/
+
+# Raw Locust output (the summary is in reports/load_test.md)
+reports/load/

@@ -37,8 +37,9 @@ from sklearn.metrics import (  # noqa: E402
 from churn.calibrate import Calibrator, retention_value  # noqa: E402
 from churn.config import Params, Settings, load_params  # noqa: E402
 from churn.features import derive_features  # noqa: E402
+from churn.runinfo import file_sha256, git_sha  # noqa: E402
 from churn.split import TRAIN_FILE, load_test, load_train  # noqa: E402
-from churn.train import build_models, file_sha256, git_sha  # noqa: E402
+from churn.train import build_models  # noqa: E402
 
 RESULT_FILE = "test_evaluation.json"
 SERVICE_BINS = ([-1, 1, 3, 99], ["0-1", "2-3", "4+"])

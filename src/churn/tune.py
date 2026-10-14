@@ -22,8 +22,9 @@ from sklearn.metrics import average_precision_score
 from sklearn.model_selection import RepeatedStratifiedKFold
 
 from churn.config import Params, Settings, load_params
+from churn.runinfo import file_sha256, git_sha
 from churn.split import TRAIN_FILE, load_train
-from churn.train import CATBOOST_FIT_PARAMS, build_models, evaluate_model, file_sha256, git_sha
+from churn.train import CATBOOST_FIT_PARAMS, build_models, evaluate_model
 
 BEST_PARAMS_FILE = "best_params.json"
 

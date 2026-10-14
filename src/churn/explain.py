@@ -24,8 +24,8 @@ import shap  # noqa: E402
 from churn.config import Params, Settings, load_params  # noqa: E402
 from churn.features import catboost_cat_features  # noqa: E402
 from churn.reasons import shap_contributions, top_reasons  # noqa: E402
+from churn.runinfo import file_sha256, git_sha  # noqa: E402
 from churn.split import TRAIN_FILE, load_train  # noqa: E402
-from churn.train import file_sha256, git_sha  # noqa: E402
 
 N_EXAMPLES = 10
 

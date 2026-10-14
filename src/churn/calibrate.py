@@ -29,8 +29,9 @@ from sklearn.model_selection import StratifiedKFold  # noqa: E402
 from churn.calibrator import METHODS, Calibrator  # noqa: E402
 from churn.config import BusinessParams, Params, Settings, load_params  # noqa: E402
 from churn.features import derive_features  # noqa: E402
+from churn.runinfo import file_sha256, git_sha  # noqa: E402
 from churn.split import TRAIN_FILE, load_train, make_cv  # noqa: E402
-from churn.train import CATBOOST_FIT_PARAMS, build_models, file_sha256, git_sha  # noqa: E402
+from churn.train import CATBOOST_FIT_PARAMS, build_models  # noqa: E402
 from churn.tune import BEST_PARAMS_FILE  # noqa: E402
 
 THRESHOLDS = np.round(np.arange(0.02, 0.95, 0.01), 2)

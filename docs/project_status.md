@@ -16,8 +16,8 @@ Update this file in the same commit as each code change.
 | 8 | `feature/calibration-threshold` | 9 | Merged |
 | 9 | `feature/final-evaluation` | 10 | PR open (into `feature/model-training`): test set evaluated once, `make gate` PASS, `reports/final_evaluation.md` |
 | 10 | `feature/explainability` | 11 | Merged |
-| 11 | `feature/pyfunc-model` | 12 | PR open: `make package`, registered `churn-catboost@production`, `docs/serving.md` |
-| 12 | `feature/api-docker-loadtest` | 12 | Not started |
+| 11 | `feature/pyfunc-model` | 12 | Merged |
+| 12 | `feature/api-docker-loadtest` | 12 | PR open: FastAPI service, Docker image, Locust load test (`reports/load_test.md`) |
 
 ## Environment notes
 
@@ -26,3 +26,4 @@ Update this file in the same commit as each code change.
 - On Windows, `make` (winget `ezwinports.make`) may need a new terminal to appear on `PATH`.
 - Parquet is unavailable here (Windows Application Control blocks pyarrow's Parquet DLL), so interim data is CSV; read it with `churn.data.load_interim`.
 - `orjson` (left behind by the removed DVC) is blocked by Windows Application Control and breaks `import mlflow` through FastAPI; it was uninstalled. Do not reinstall it.
+- Windows Application Control on the dev machine blocks some compiled Python libraries (seen: orjson, black/mypy accelerators, SQLAlchemy, parts of scikit-learn); the full test suite was run in a Linux container (`python:3.11-slim` plus `requirements-dev.txt`) instead.
